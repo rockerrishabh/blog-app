@@ -1,3 +1,4 @@
+import { NextApiRequest, NextApiResponse } from 'next'
 import { getSession, GetSessionParams, useSession } from 'next-auth/react'
 import Layout from '../../components/Layout'
 
@@ -10,8 +11,11 @@ function Dashboard() {
 
 export default Dashboard
 
-export async function getServerSideProps(ctx: GetSessionParams | undefined) {
-  const session = await getSession(ctx)
+export async function getServerSideProps(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  const session = await getSession({ req })
   if (!session) {
     return {
       redirect: {
