@@ -1,18 +1,7 @@
-import { NextApiRequest, NextApiResponse, NextPageContext } from 'next'
-import { getSession, GetSessionParams, useSession } from 'next-auth/react'
-import Layout from '../../components/Layout'
+import { useSession } from 'next-auth/react'
 
 function Dashboard() {
   const { data: session } = useSession()
-  if (session) {
-    return <div>Welcome {session?.user.name}</div>
-  }
-}
-
-export default Dashboard
-
-export async function getServerSideProps(ctx: NextPageContext) {
-  const session = await getSession(ctx)
   if (!session) {
     return {
       redirect: {
@@ -21,9 +10,9 @@ export async function getServerSideProps(ctx: NextPageContext) {
       },
     }
   }
-  return {
-    props: {
-      session: { session },
-    },
+  if (session) {
+    return <div>Welcome {session?.user.name}</div>
   }
 }
+
+export default Dashboard
