@@ -1,15 +1,11 @@
-import { NextApiRequest, NextApiResponse, NextPageContext } from 'next'
-import { getSession, useSession } from 'next-auth/react'
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
 
 function Pages() {
   const { data: session } = useSession()
+  const router = useRouter()
   if (!session) {
-    return {
-      redirect: {
-        destination: '/',
-        permanent: false,
-      },
-    }
+    return router.push('/')
   }
 
   if (session) {
