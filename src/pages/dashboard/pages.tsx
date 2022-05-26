@@ -1,4 +1,4 @@
-import { NextApiRequest, NextApiResponse } from 'next'
+import { NextApiRequest, NextApiResponse, NextPageContext } from 'next'
 import { getSession, useSession } from 'next-auth/react'
 
 function Pages() {
@@ -10,11 +10,8 @@ function Pages() {
 }
 
 export default Pages
-export async function getServerSideProps(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  const session = await getSession({ req })
+export async function getServerSideProps(ctx: NextPageContext) {
+  const session = await getSession(ctx)
   if (!session) {
     return {
       redirect: {
