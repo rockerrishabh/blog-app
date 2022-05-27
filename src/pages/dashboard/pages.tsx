@@ -1,5 +1,4 @@
 import { getSession, useSession } from 'next-auth/react'
-import { useRouter } from 'next/router'
 import { GetServerSideProps } from 'next'
 
 function Pages() {
