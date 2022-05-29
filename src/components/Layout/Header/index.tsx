@@ -2,91 +2,116 @@ import { signIn, signOut, useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { SearchIcon } from '@heroicons/react/outline'
-import { useState } from 'react'
+import { Fragment, useState } from 'react'
 import Links from '../../Links'
+import { Menu, Transition } from '@headlessui/react'
+import { ChevronDownIcon } from '@heroicons/react/solid'
+import Image from 'next/image'
 
 function Header() {
   const { data: session } = useSession()
   const router = useRouter()
   const [isSearchOpen, setIsSearchOpen] = useState(false)
-  function handleSearchIconClick() {
-    setIsSearchOpen(!isSearchOpen)
-  }
+
   return (
     <div className="top-0 sticky border-b">
-      <div className="max-w-7xl px-4 mx-auto font-medium items-center  text-slate-900 flex py-4 justify-between">
-        <div className="space-x-2 flex items-center">
-          <Link href="/">
-            <a className=" mb-1 font-bold text-2xl hover:text-blue-500 hover:scale-105">
-              Blog App
-            </a>
-          </Link>
-          {session && (
-            <div className="flex space-x-2 items-center">
-              {router.pathname === '/' && (
-                <>
-                  <p className=" font-bold">:</p>
-                  <Link href="/dashboard">
-                    <a className="hover:opacity-100 opacity-60">
-                      Enter Dashboard
-                    </a>
-                  </Link>
-                </>
-              )}
+      <div
+        className={`max-w-6xl px-4 mx-auto justify-between flex items-center ${
+          session ? 'py-2' : 'py-5'
+        }`}
+      >
+        {session ? (
+          <>
+            <Link href="/dashboard">
+              <a>Dashboard</a>
+            </Link>
+            <div>
+              <Menu as="div" className="relative inline-block text-left">
+                <div>
+                  <Menu.Button className="cursor-pointer flex items-center text-gray-700 hover:text-gray-500 ">
+                    <Image
+                      className="rounded-full"
+                      height="40"
+                      width="40"
+                      alt=""
+                      src={session?.user.image as string}
+                    />
+                    <ChevronDownIcon className="h-5 w-5" aria-hidden="true" />
+                  </Menu.Button>
+                </div>
+                <Transition
+                  as={Fragment}
+                  enter="transition ease-out duration-100"
+                  enterFrom="transform opacity-0 scale-95"
+                  enterTo="transform opacity-100 scale-100"
+                  leave="transition ease-in duration-75"
+                  leaveFrom="transform opacity-100 scale-100"
+                  leaveTo="transform opacity-0 scale-95"
+                >
+                  <Menu.Items className="absolute right-0 mt-2 w-36 md:w-44 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <div className="px-1 py-1 ">
+                      <Menu.Item>
+                        {({ active }: any) => (
+                          <button
+                            className={`${
+                              active
+                                ? 'bg-violet-500 text-white'
+                                : 'text-gray-900'
+                            } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                          >
+                            Profile
+                          </button>
+                        )}
+                      </Menu.Item>
+                    </div>
+                    <div className="px-1 py-1">
+                      <Menu.Item>
+                        {({ active }: any) => (
+                          <button
+                            className={`${
+                              active
+                                ? 'bg-violet-500 text-white'
+                                : 'text-gray-900'
+                            } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                          >
+                            Settings
+                          </button>
+                        )}
+                      </Menu.Item>
+                    </div>
+                    <div className="px-1 py-1">
+                      <Menu.Item>
+                        {({ active }: any) => (
+                          <button
+                            onClick={() => {
+                              signOut({ callbackUrl: '/' })
+                            }}
+                            className={`${
+                              active
+                                ? 'bg-violet-500 text-white'
+                                : 'text-gray-900'
+                            } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                          >
+                            Sign Out
+                          </button>
+                        )}
+                      </Menu.Item>
+                    </div>
+                  </Menu.Items>
+                </Transition>
+              </Menu>
             </div>
-          )}
-        </div>
-
-        <div className="space-x-2 md:space-x-10 flex items-center">
-          <div className="space-x-2 flex items-center">
-            <div
-              className={`rounded-full  items-center mt-1 flex py-1 px-2 ${
-                isSearchOpen &&
-                'bg-slate-100 focus:ring-blue-500 focus:border-none focus:ring-1 border'
-              } `}
-            >
-              <SearchIcon
-                onClick={handleSearchIconClick}
-                className="cursor-pointer h-5 w-5 hover:text-blue-500 text-slate-600"
-              />
-              <input
-                id="search"
-                type="text"
-                placeholder="Search..."
-                className={`outline-none pl-2 text-slate-700  caret-slate-700 bg-transparent ${
-                  isSearchOpen
-                    ? 'flex-1 transition duration-300 ease-in-out'
-                    : 'hidden'
-                }`}
-              />
+          </>
+        ) : (
+          <>
+            <Link href="/">
+              <a>Blog App</a>
+            </Link>
+            <div className="space-x-6">
+              <Links />
             </div>
-            <div className="space-x-4 md:flex items-center hidden">
-              {router.pathname === '/' && <Links />}
-              {router.pathname === '/categories' && <Links />}
-              {router.pathname === '/about-us' && <Links />}
-              {router.pathname === '/contact-us' && <Links />}
-            </div>
-          </div>
-          {session ? (
-            <div
-              onClick={() => {
-                signOut({ callbackUrl: '/dashboard' })
-              }}
-              className="px-5 py-1 items-center hover:opacity-100 opacity-60 rounded-full border cursor-pointer border-slate-500 hover:border-slate-900"
-            >
-              <p className=" font-medium">Sign Out</p>
-            </div>
-          ) : (
-            <div
-              onClick={() => {
-                signIn('google', { callbackUrl: '/dashboard' })
-              }}
-              className="px-5 py-1 items-center hover:opacity-100 opacity-60 rounded-full border cursor-pointer border-slate-500 hover:border-slate-900"
-            >
-              <p className=" font-medium">Sign In</p>
-            </div>
-          )}
-        </div>
+          </>
+        )}
       </div>
     </div>
   )

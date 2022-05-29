@@ -1,5 +1,5 @@
-import type { NextPage } from 'next'
-import { signIn, signOut, useSession } from 'next-auth/react'
+import type { GetServerSideProps, NextPage } from 'next'
+import { getSession, signIn, signOut, useSession } from 'next-auth/react'
 import Head from 'next/head'
 import Link from 'next/link'
 
@@ -39,3 +39,18 @@ const Home: NextPage = () => {
 }
 
 export default Home
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const session = await getSession({ ctx })
+  if (session) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: '/dashboard',
+      },
+    }
+  }
+
+  return {
+    props: { session },
+  }
+}

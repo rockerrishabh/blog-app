@@ -1,18 +1,23 @@
+import { getSession, useSession } from 'next-auth/react'
 import { GetServerSideProps } from 'next'
-import { getSession } from 'next-auth/react'
 
-function AboutUs() {
-  return <div>About Us</div>
+function Users() {
+  const { data: session } = useSession()
+
+  if (session) {
+    return <div>Pages</div>
+  }
 }
 
-export default AboutUs
+export default Users
+
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getSession({ ctx })
-  if (session) {
+  if (!session) {
     return {
       redirect: {
         permanent: false,
-        destination: '/dashboard',
+        destination: '/',
       },
     }
   }
