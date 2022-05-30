@@ -12,18 +12,18 @@ function Sidebar() {
   return (
     <>
       {isOpen ? (
-        <div className="cursor-pointer block md:hidden">
-          <XIcon
-            onClick={() => setIsOpen(!isOpen)}
-            className=" h-5 w-5 active:rotate-12"
-          />
+        <div
+          onClick={() => setIsOpen(!isOpen)}
+          className="cursor-pointer block md:hidden"
+        >
+          <XIcon className=" h-5 w-5 active:rotate-12" />
         </div>
       ) : (
-        <div className="cursor-pointer block md:hidden">
-          <MenuIcon
-            onClick={() => setIsOpen(!isOpen)}
-            className=" h-5 w-5 active:rotate-12"
-          />
+        <div
+          onClick={() => setIsOpen(!isOpen)}
+          className="cursor-pointer block md:hidden"
+        >
+          <MenuIcon className=" h-5 w-5 active:rotate-12" />
         </div>
       )}
       <div
