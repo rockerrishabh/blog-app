@@ -1,11 +1,14 @@
 import { signIn, signOut, useSession } from 'next-auth/react'
 import { MenuIcon, XIcon } from '@heroicons/react/solid'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import Links from '../../Links'
+import useClickOutside from '../../Modules/useClickOutside'
 
 function Sidebar() {
   const { data: session } = useSession()
   const [isOpen, setIsOpen] = useState(false)
+  const ref = useRef(null)
+  useClickOutside(ref, () => setIsOpen(false))
   return (
     <>
       {isOpen ? (
@@ -24,11 +27,12 @@ function Sidebar() {
         </div>
       )}
       <div
+        ref={ref}
         className={`fixed top-[4.07rem] p-4 right-0 h-screen w-screen bg-white duration-300 ease-in-out ${
           isOpen ? 'translate-x-0 ' : '-translate-x-full'
         }`}
       >
-        <div className="flex flex-col space-y-3 p-2 text-lg items-center">
+        <div className="flex flex-col space-y-3 text-lg items-center">
           <Links />
         </div>
         <div className="flex flex-col space-y-3 p-2 text-lg items-center">
