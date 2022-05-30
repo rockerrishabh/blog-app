@@ -29,7 +29,7 @@ function Sidebar() {
       <div
         ref={ref}
         className={`fixed top-[4.07rem] md:hidden p-4 right-0 h-screen w-screen bg-white duration-300 ease-in-out ${
-          isOpen ? 'translate-x-0 ' : '-translate-x-full'
+          isOpen ? 'translate-x-0 ' : 'translate-x-full'
         }`}
       >
         <div className="flex flex-col space-y-3 text-lg items-center">
