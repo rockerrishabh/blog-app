@@ -5,6 +5,9 @@ const nextConfig = withPWA({
   images: {
     domains: ['lh3.googleusercontent.com'],
   },
+  pwa: {
+    dest: 'public',
+  },
 })
 
 module.exports = nextConfig

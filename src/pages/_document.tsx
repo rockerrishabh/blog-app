@@ -39,14 +39,6 @@ export default class MyDocument extends Document {
           />
           <link rel="manifest" href="/manifest.webmanifest" />
           <link rel="shortcut icon" href="/favicon.ico" />
-          <style>{`
-              html, body, #__next {
-                height: 100%;
-              }
-              #__next {
-                margin: 0 auto;
-              }
-              `}</style>
         </Head>
         <body>
           <Main />
