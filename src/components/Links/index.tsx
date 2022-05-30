@@ -4,7 +4,7 @@ function Links() {
   return (
     <>
       <Link href="/">
-        <div className="hover:opacity-100 opacity-80 px-2">Categories</div>
+        <a className="hover:opacity-100 opacity-80 px-2">Categories</a>
       </Link>
 
       <Link href="/about-us">
