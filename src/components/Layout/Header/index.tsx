@@ -5,13 +5,13 @@ import { SearchIcon } from '@heroicons/react/outline'
 import { Fragment, useState } from 'react'
 import Links from '../../Links'
 import { Menu, Transition } from '@headlessui/react'
-import { ChevronDownIcon } from '@heroicons/react/solid'
+import { ChevronDownIcon, MenuIcon, XIcon } from '@heroicons/react/solid'
 import Image from 'next/image'
+import Sidebar from './Sidebar'
 
 function Header() {
   const { data: session } = useSession()
   const router = useRouter()
-  const [isSearchOpen, setIsSearchOpen] = useState(false)
 
   return (
     <div className="top-0 sticky border-b">
@@ -107,9 +107,25 @@ function Header() {
             <Link href="/">
               <a>Blog App</a>
             </Link>
-            <div className="space-x-6">
-              <Links />
+            <div className="space-x-10 hidden items-center md:inline-flex">
+              <div className="space-x-6">
+                <Links />
+              </div>
+              <div className="space-x-4 ">
+                {!session && (
+                  <button
+                    className="py-2 bg-teal-600 rounded-md px-4 text-white hover:bg-teal-500"
+                    onClick={() => {
+                      signIn('google', { callbackUrl: '/dashboard' })
+                    }}
+                  >
+                    Sign In
+                  </button>
+                )}
+              </div>
             </div>
+
+            <Sidebar />
           </>
         )}
       </div>
