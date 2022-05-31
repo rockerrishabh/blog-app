@@ -8,7 +8,7 @@ type Props = { children: ReactNode }
 export default function Layout({ children }: Props) {
   const { data: session } = useSession()
   return (
-    <div className="">
+    <div className="select-none">
       <Header />
       <div className="max-w-6xl mx-auto">{children}</div>
     </div>
