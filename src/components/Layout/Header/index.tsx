@@ -2,16 +2,20 @@ import { signIn, signOut, useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { SearchIcon } from '@heroicons/react/outline'
-import { Fragment, useState } from 'react'
+import { Fragment, useRef, useState } from 'react'
 import Links from '../../Links'
 import { Menu, Transition } from '@headlessui/react'
 import { ChevronDownIcon, MenuIcon, XIcon } from '@heroicons/react/solid'
 import Image from 'next/image'
 import Sidebar from './Sidebar'
+import useClickOutside from '../../Modules/useClickOutside'
 
 function Header() {
   const { data: session } = useSession()
   const router = useRouter()
+  const [isOpen, setIsOpen] = useState(false)
+  const ref = useRef(null)
+  useClickOutside(ref, () => setIsOpen(false))
 
   return (
     <div className="top-0 sticky border-b">
@@ -22,9 +26,12 @@ function Header() {
       >
         {session ? (
           <>
-            <Link href="/dashboard">
-              <a>Dashboard</a>
-            </Link>
+            <div className="flex space-x-3 items-center">
+              <Sidebar />
+              <Link href="/dashboard">
+                <a className="text-lg">Dashboard</a>
+              </Link>
+            </div>
             <div>
               <Menu as="div" className="relative inline-block text-left">
                 <div>
