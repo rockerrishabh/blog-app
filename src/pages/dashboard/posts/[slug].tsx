@@ -28,10 +28,10 @@ function Post(post: Props) {
   async function deletePost(id: string): Promise<void> {
     try {
       await fetch(`http://localhost:3000/api/posts/${id}`, {
-      method: 'DELETE',
-    })
-    toast('Deleted Successfully')
-    await router.push('/dashboard/posts')
+        method: 'DELETE',
+      })
+      toast('Deleted Successfully')
+      await router.push('/dashboard/posts')
     } catch (error) {
       toast('error happened')
     }
@@ -43,14 +43,22 @@ function Post(post: Props) {
         <h1>{post.title}</h1>
         <p>{post.content}</p>
         <div className="text-white space-x-4 mt-2">
-          <button onClick={() => {
-                   publishPost(post.id)
-              }} 
-            className="py-2 px-4 bg-green-500 hover:opacity-80 rounded-md">Publish</button>
-          <button onClick={() => {
-                    deletePost(post.id)
-              }} 
-            className="py-2 px-4 bg-blue-500 hover:opacity-80 rounded-md">Delete</button>
+          <button
+            onClick={() => {
+              publishPost(post.id)
+            }}
+            className="py-2 px-4 bg-green-500 hover:opacity-80 rounded-md"
+          >
+            Publish
+          </button>
+          <button
+            onClick={() => {
+              deletePost(post.id)
+            }}
+            className="py-2 px-4 bg-blue-500 hover:opacity-80 rounded-md"
+          >
+            Delete
+          </button>
         </div>
       </div>
     </div>
