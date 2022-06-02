@@ -13,6 +13,7 @@ const Home: NextPage<Posts> = ({ posts }) => {
         <div>Posts</div>
         {posts.map((post) => (
           <div
+          className={'overflow-hidden'}
             onClick={() => router.push('/posts/[slug]', `/posts/${post.slug}`)}
             key={post.slug}
           >

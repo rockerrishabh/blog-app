@@ -30,7 +30,7 @@ function Posts({ posts }: Posts) {
                   `/dashboard/posts/${post.slug}`
                 )
               }
-              className="p-5 border cursor-pointer border-slate-300 hover:border-slate-400 rounded-md"
+              className="overflow-hidden p-5 border cursor-pointer border-slate-300 hover:border-slate-400 rounded-md"
               key={post.id}
             >
               <h1 className="hover:underline">{post.title}</h1>
