@@ -6,7 +6,7 @@ export default async function handle(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { title, content, slug, featuredImage } = req.body
+  const { title, content, slug } = req.body
 
   const session = await getSession({ req })
   const posts = await prisma.posts.create({
@@ -14,7 +14,6 @@ export default async function handle(
       title: title,
       content: content,
       slug: slug,
-      featuredImage: featuredImage,
       author: {
         connect: {
           email: session?.user.email,

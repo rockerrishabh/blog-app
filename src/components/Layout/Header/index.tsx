@@ -20,8 +20,8 @@ function Header() {
   return (
     <div className="top-0 sticky border-b">
       <div
-        className={`max-w-6xl px-4 mx-auto justify-between flex items-center ${
-          session ? 'py-2' : 'py-5'
+        className={`px-4 mx-auto justify-between flex items-center ${
+          session ? 'py-2' : 'max-w-6xl py-5'
         }`}
       >
         {session ? (

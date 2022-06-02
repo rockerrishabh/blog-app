@@ -1,7 +1,6 @@
 import type { GetServerSideProps, NextPage } from 'next'
 import { getSession, signIn, signOut, useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
-import { Key } from 'react'
 import { prisma } from '../../lib/prisma'
 
 interface Props {
