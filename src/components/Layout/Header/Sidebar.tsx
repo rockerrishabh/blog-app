@@ -30,7 +30,7 @@ function Sidebar() {
           )}
           <div
             ref={ref}
-            className={`fixed top-[4.07rem] transition duration-300 ease-in-out border-r p-4 left-0 h-screen md:w-44 w-40 bg-white  ${
+            className={`fixed z-50 top-[4.07rem] transition duration-300 ease-in-out border-r p-4 left-0 h-screen md:w-44 w-40 bg-white  ${
               isOpen
                 ? '-translate-x-3 md:-translate-x-3'
                 : '-translate-x-48 md:-translate-x-3'
