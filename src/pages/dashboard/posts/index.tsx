@@ -15,9 +15,9 @@ function Posts({ posts }: Posts) {
   return (
     <>
       {session && (
-        <div className="flex flex-col relative space-y-4 mt-2 p-10">
+        <div className="flex flex-col space-y-4 mt-2 p-10">
           <Link href="/dashboard/posts/create">
-            <div className="absolute text-white flex space-x-3 top-1 right-10 hover:opacity-80 cursor-pointer items-center rounded-full py-2 px-8 bg-green-500">
+            <div className="fixed text-white flex space-x-3 top-1 right-10 hover:opacity-80 cursor-pointer items-center rounded-full py-2 px-8 bg-green-500">
               <PlusIcon className="h-3 w-3" />
               <p>Create</p>
             </div>
