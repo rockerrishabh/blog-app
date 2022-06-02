@@ -2,21 +2,9 @@ import type { GetServerSideProps, NextPage } from 'next'
 import { getSession, signIn, signOut, useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { prisma } from '../../lib/prisma'
+import { Posts } from '../../typings'
 
-interface Props {
-  posts: {
-    id: string
-    title: string
-    content: string
-    slug: string
-    featuredImage: string
-    author: {
-      name: string
-    }
-  }[]
-}
-
-const Home: NextPage<Props> = ({ posts }) => {
+const Home: NextPage<Posts> = ({ posts }) => {
   const { data: session } = useSession()
   const router = useRouter()
   return (

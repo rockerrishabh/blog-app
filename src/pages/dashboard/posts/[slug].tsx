@@ -5,16 +5,10 @@ import { prisma } from '../../../../lib/prisma'
 import { useEffect } from 'react'
 import Image from 'next/image'
 import { toast } from 'react-toastify'
+import { Post } from '../../../../typings'
 
-type Props = {
-  id: string
-  title: string
-  content: string
-  slug: string
-  featuredImage: string
-}
 
-function Post(post: Props) {
+function Post(post: Post) {
   const { data: session } = useSession()
   const router = useRouter()
   async function publishPost(id: string): Promise<void> {

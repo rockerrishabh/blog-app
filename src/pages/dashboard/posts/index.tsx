@@ -4,17 +4,11 @@ import { prisma } from '../../../../lib/prisma'
 import { useRouter } from 'next/router'
 import { PlusIcon } from '@heroicons/react/solid'
 import Link from 'next/link'
+import { Posts } from '../../../../typings'
 
-type Props = {
-  posts: {
-    id: string
-    title: string
-    slug: string
-    content: string
-  }[]
-}
 
-function Posts({ posts }: Props) {
+
+function Posts({ posts }: Posts) {
   const { data: session } = useSession()
   const router = useRouter()
 
