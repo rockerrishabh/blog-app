@@ -38,6 +38,7 @@ function CreatePost(post: Post) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ title, slug, content }),
       })
+      reset()
       toast('Successfully Updated')
       router.push(`${process.env.NEXT_PUBLIC_APP_URL}/dashboard/posts`)
     } catch (error) {

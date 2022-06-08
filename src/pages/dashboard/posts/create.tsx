@@ -1,5 +1,6 @@
 import { GetServerSideProps } from 'next'
 import { getSession, useSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 
@@ -11,6 +12,7 @@ type FormData = {
 
 function CreatePost() {
   const { data: session } = useSession()
+  const router = useRouter()
   const {
     register,
     reset,
@@ -28,6 +30,7 @@ function CreatePost() {
       })
       reset()
       toast('Successfully Created')
+      router.push(`${process.env.NEXT_PUBLIC_APP_URL}/dashboard/posts`)
     } catch (error) {
       console.error(error)
       toast('error')
