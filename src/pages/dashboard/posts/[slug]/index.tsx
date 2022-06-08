@@ -1,18 +1,18 @@
 import { signOut, useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { GetServerSideProps } from 'next'
-import { prisma } from '../../../../lib/prisma'
+import { prisma } from '../../../../../lib/prisma'
 import { useEffect } from 'react'
 import Image from 'next/image'
 import { toast } from 'react-toastify'
-import { Post } from '../../../../typings'
-
+import { Post } from '../../../../../typings'
+import Link from 'next/link'
 
 function Post(post: Post) {
   const { data: session } = useSession()
   const router = useRouter()
   async function publishPost(id: string): Promise<void> {
-    await fetch(`http://localhost:3000/api/posts/publish/${id}`, {
+    await fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts/publish/${id}`, {
       method: 'PUT',
     })
     toast('Published Successfully')
@@ -21,7 +21,7 @@ function Post(post: Post) {
 
   async function deletePost(id: string): Promise<void> {
     try {
-      await fetch(`http://localhost:3000/api/posts/${id}`, {
+      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts/${id}`, {
         method: 'DELETE',
       })
       toast('Deleted Successfully')
@@ -37,6 +37,14 @@ function Post(post: Post) {
         <h1>{post.title}</h1>
         <p>{post.content}</p>
         <div className="text-white space-x-4 mt-2">
+          <button
+            onClick={() => {
+              router.push(`/dashboard/posts/${post.slug}/edit`)
+            }}
+            className="py-2 px-6 bg-orange-400 hover:opacity-80 rounded-md"
+          >
+            <a>Edit</a>
+          </button>
           <button
             onClick={() => {
               publishPost(post.id)
