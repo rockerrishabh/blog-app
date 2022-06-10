@@ -46,6 +46,14 @@ export default Posts
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getSession({ ctx })
+  if (!session) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    }
+  }
 
   const posts = await prisma.posts.findMany({
     where: {
