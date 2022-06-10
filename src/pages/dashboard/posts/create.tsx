@@ -1,14 +1,9 @@
+import { Editor } from '@tinymce/tinymce-react'
 import { GetServerSideProps } from 'next'
 import { getSession, useSession } from 'next-auth/react'
-import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import { Controller, useForm } from 'react-hook-form'
 import { toast } from 'react-hot-toast'
-import 'suneditor/dist/css/suneditor.min.css'
-
-const SunEditor = dynamic(() => import('suneditor-react'), {
-  ssr: false,
-})
 
 type FormData = {
   title: string
@@ -84,43 +79,47 @@ function CreatePost() {
               <Controller
                 control={control}
                 render={({ field: { onChange, onBlur } }) => (
-                  <SunEditor
-                    placeholder="Add Someting here..."
-                    height="100%"
-                    width="100%"
-                    onBlur={onBlur}
-                    onChange={onChange}
-                    setOptions={{
-                      imageFileInput: false,
-                      buttonList: [
-                        ['undo', 'redo'],
-                        ['font', 'fontSize'],
-                        // ['paragraphStyle', 'blockquote'],
-                        [
-                          'bold',
-                          'underline',
-                          'italic',
-                          'strike',
-                          'subscript',
-                          'superscript',
+                  <div className="border p-2 border-gray-600 rounded">
+                    <Editor
+                      onBlur={onBlur}
+                      id="content"
+                      init={{
+                        branding: false,
+                        a11y_advanced_options: true,
+                        plugins: [
+                          'print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons',
                         ],
-                        ['fontColor', 'hiliteColor'],
-                        ['align', 'list', 'lineHeight'],
-                        ['outdent', 'indent'],
-
-                        ['table', 'horizontalRule', 'link', 'image', 'video'],
-                        // ['math'] //You must add the 'katex' library at options to use the 'math' plugin.
-                        // ['imageGallery'], // You must add the "imageGalleryUrl".
-                        // ["fullScreen", "showBlocks", "codeView"],
-                        ['preview', 'print'],
-                        ['removeFormat'],
-
-                        // ['save', 'template'],
-                        // '/', Line break
-                      ], // Or Array of button list, eg. [['font', 'align'], ['image']]
-                      minHeight: '300px',
-                    }}
-                  />
+                        menubar: true,
+                        toolbar_sticky: true,
+                        image_advtab: true,
+                        skin: 'snow',
+                        content_css: 'default',
+                        toolbar_mode: 'sliding',
+                        contextmenu: 'link image imagetools table',
+                        quickbars_selection_toolbar:
+                          'bold italic | quicklink h2 h3 blockquote quickimage quicktable',
+                        height: 400,
+                        width: 979,
+                        icons: 'thin',
+                        image_caption: true,
+                        mobile: {
+                          plugins:
+                            'print preview powerpaste code casechange importcss tinydrive searchreplace autolink autosave save directionality advcode visualblocks visualchars fullscreen image link media mediaembed template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists checklist wordcount tinymcespellchecker a11ychecker textpattern noneditable help formatpainter pageembed charmap mentions quickbars linkchecker emoticons advtable',
+                        },
+                        menu: {
+                          tc: {
+                            title: 'Comments',
+                            items:
+                              'addcomment showcomments deleteallconversations',
+                          },
+                        },
+                        toolbar:
+                          'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist checklist | forecolor backcolor casechange permanentpen formatpainter removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media pageembed template link anchor codesample | a11ycheck ltr rtl | showcomments addcomment',
+                      }}
+                      apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY}
+                      onEditorChange={onChange}
+                    />
+                  </div>
                 )}
                 name="content"
               />

@@ -54,7 +54,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   })
   return JSON.parse(
     JSON.stringify({
-      props: { session, posts },
+      props: { posts },
     })
   )
 }

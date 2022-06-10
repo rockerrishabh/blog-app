@@ -1,32 +1,29 @@
-import { signOut, useSession } from 'next-auth/react'
+import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { GetServerSideProps } from 'next'
 import { prisma } from '../../../../../lib/prisma'
-import { useEffect } from 'react'
-import Image from 'next/image'
 import { toast } from 'react-hot-toast'
 import { Post } from '../../../../../typings'
-import Link from 'next/link'
 import parse from 'html-react-parser'
 
 function Post(post: Post) {
   const { data: session } = useSession()
   const router = useRouter()
-  async function publishPost(id: string): Promise<void> {
+  const publishPost = async (id: string): Promise<void> => {
     await fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts/publish/${id}`, {
       method: 'PUT',
     })
-    await router.push('/dashboard/posts')
+    await router.push(`/dashboard/posts/${id}`)
   }
 
-  async function unPublishPost(id: string): Promise<void> {
+  const unPublishPost = async (id: string): Promise<void> => {
     await fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts/unpublish/${id}`, {
       method: 'PUT',
     })
-    await router.push('/dashboard/posts')
+    await router.push(`/dashboard/posts/${id}`)
   }
 
-  async function deletePost(id: string): Promise<void> {
+  const deletePost = async (id: string): Promise<void> => {
     await fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts/${id}`, {
       method: 'DELETE',
     })
@@ -43,7 +40,7 @@ function Post(post: Post) {
         <div className="text-white space-x-4 mt-2">
           <button
             onClick={() => {
-              router.push(`/dashboard/posts/${post.slug}/edit`)
+              router.push(`/dashboard/posts/${post.id}/edit`)
             }}
             className="py-2 px-6 bg-orange-400 hover:opacity-80 rounded-md"
           >
@@ -51,7 +48,7 @@ function Post(post: Post) {
           </button>
           <button
             onClick={() => {
-              toast.promise(publishPost(post.id), {
+              toast.promise(unPublishPost(post.id), {
                 loading: 'Un-Publishing...',
                 success: <b>Un Published Successfully!</b>,
                 error: <b>Error while Un-Publishing</b>,
@@ -63,7 +60,7 @@ function Post(post: Post) {
           </button>
           <button
             onClick={() => {
-              toast.promise(unPublishPost(post.id), {
+              toast.promise(publishPost(post.id), {
                 loading: 'Publishing...',
                 success: <b>Published Successfully!</b>,
                 error: <b>Error while Publishing</b>,
@@ -96,7 +93,7 @@ export default Post
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const post = await prisma.posts.findUnique({
     where: {
-      slug: String(context.params?.slug),
+      id: String(context.params?.id),
     },
     include: {
       author: {
