@@ -3,7 +3,7 @@ import type { AppProps } from 'next/app'
 import { SessionProvider } from 'next-auth/react'
 import Layout from '../components/Layout'
 import Head from 'next/head'
-import { ToastContainer } from 'react-toastify'
+import { Toaster } from 'react-hot-toast'
 import 'react-toastify/dist/ReactToastify.css'
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
@@ -20,7 +20,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
       </Head>
       <Layout>
         <Component {...pageProps} />
-        <ToastContainer />
+        <Toaster />
       </Layout>
     </SessionProvider>
   )

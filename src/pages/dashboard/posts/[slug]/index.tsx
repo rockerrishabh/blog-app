@@ -4,7 +4,7 @@ import { GetServerSideProps } from 'next'
 import { prisma } from '../../../../../lib/prisma'
 import { useEffect } from 'react'
 import Image from 'next/image'
-import { toast } from 'react-toastify'
+import { toast } from 'react-hot-toast'
 import { Post } from '../../../../../typings'
 import Link from 'next/link'
 
