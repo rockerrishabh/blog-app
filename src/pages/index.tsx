@@ -3,6 +3,7 @@ import { getSession, signIn, signOut, useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { prisma } from '../../lib/prisma'
 import { Posts } from '../../typings'
+import parse from 'html-react-parser'
 
 const Home: NextPage<Posts> = ({ posts }) => {
   const { data: session } = useSession()
@@ -13,12 +14,12 @@ const Home: NextPage<Posts> = ({ posts }) => {
         <div>Posts</div>
         {posts.map((post) => (
           <div
-            className="overflow-hidden flex flex-col space-y-3 border rounded-md p-5"
+            className="overflow-hidden flex flex-col space-y-2 border rounded-md p-5"
             onClick={() => router.push('/posts/[slug]', `/posts/${post.slug}`)}
             key={post.slug}
           >
             <h2 className="cursor-pointer hover:underline">{post.title}</h2>
-            <p className="post--content">{post.content}</p>
+            <p className="post--content">{parse(post.content)}</p>
           </div>
         ))}
       </div>

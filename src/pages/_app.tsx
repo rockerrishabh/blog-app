@@ -4,7 +4,6 @@ import { SessionProvider } from 'next-auth/react'
 import Layout from '../components/Layout'
 import Head from 'next/head'
 import { Toaster } from 'react-hot-toast'
-import 'react-toastify/dist/ReactToastify.css'
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (

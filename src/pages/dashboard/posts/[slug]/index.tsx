@@ -7,6 +7,7 @@ import Image from 'next/image'
 import { toast } from 'react-hot-toast'
 import { Post } from '../../../../../typings'
 import Link from 'next/link'
+import parse from 'html-react-parser'
 
 function Post(post: Post) {
   const { data: session } = useSession()
@@ -15,28 +16,22 @@ function Post(post: Post) {
     await fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts/publish/${id}`, {
       method: 'PUT',
     })
-    toast('Published Successfully')
     await router.push('/dashboard/posts')
   }
 
   async function deletePost(id: string): Promise<void> {
-    try {
-      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts/${id}`, {
-        method: 'DELETE',
-      })
-      toast('Deleted Successfully')
-      await router.push('/dashboard/posts')
-    } catch (error) {
-      toast('error happened')
-    }
+    await fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts/${id}`, {
+      method: 'DELETE',
+    })
+    await router.push('/dashboard/posts')
   }
 
   return (
     <div className="col-span-7 p-5">
       <div className="flex flex-col">
-        <div className="flex flex-col space-y-3">
+        <div className="flex flex-col space-y-2">
           <h2>{post.title}</h2>
-          <p>{post.content}</p>
+          <p>{parse(post.content)}</p>
         </div>
         <div className="text-white space-x-4 mt-2">
           <button
@@ -49,7 +44,11 @@ function Post(post: Post) {
           </button>
           <button
             onClick={() => {
-              publishPost(post.id)
+              toast.promise(publishPost(post.id), {
+                loading: 'Publishing...',
+                success: <b>Published Successfully!</b>,
+                error: <b>Error while Publishing</b>,
+              })
             }}
             className="py-2 px-4 bg-green-500 hover:opacity-80 rounded-md"
           >
@@ -57,7 +56,11 @@ function Post(post: Post) {
           </button>
           <button
             onClick={() => {
-              deletePost(post.id)
+              toast.promise(deletePost(post.id), {
+                loading: 'Deleting...',
+                success: <b>Deleted Successfully!</b>,
+                error: <b>Error while Deleting</b>,
+              })
             }}
             className="py-2 px-4 bg-blue-500 hover:opacity-80 rounded-md"
           >

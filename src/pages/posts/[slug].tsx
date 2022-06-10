@@ -4,6 +4,7 @@ import { GetServerSideProps } from 'next'
 import { prisma } from '../../../lib/prisma'
 import { useEffect } from 'react'
 import Image from 'next/image'
+import parse from 'html-react-parser'
 
 type Props = {
   title: string
@@ -18,9 +19,9 @@ function Post(post: Props) {
 
   return (
     <div className="col-span-7 p-5">
-      <div className="flex flex-col space-y-3">
+      <div className="flex flex-col space-y-2">
         <h2>{post.title}</h2>
-        <p className="excerpt">{post.content}</p>
+        <p className="excerpt">{parse(post.content)}</p>
       </div>
     </div>
   )

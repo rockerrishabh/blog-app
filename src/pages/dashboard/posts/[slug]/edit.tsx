@@ -1,50 +1,48 @@
 import { GetServerSideProps } from 'next'
 import { getSession, useSession } from 'next-auth/react'
-import { useForm } from 'react-hook-form'
-import { toast } from 'react-toastify'
+import { Controller, useForm } from 'react-hook-form'
+import { toast } from 'react-hot-toast'
 import { Post } from '../../../../../typings'
 import { prisma } from '../../../../../lib/prisma'
 import { useRouter } from 'next/router'
+import 'suneditor/dist/css/suneditor.min.css'
+import dynamic from 'next/dynamic'
+
+const SunEditor = dynamic(() => import('suneditor-react'), {
+  ssr: false,
+})
 
 type FormData = {
-  id: string
   title: string
   slug: string
   content: string
 }
 
-function CreatePost(post: Post) {
+function EditPost(post: Post) {
   const { data: session } = useSession()
   const router = useRouter()
   const {
-    register,
+    control,
     reset,
     handleSubmit,
     formState: { errors },
   } = useForm<FormData>()
-  const onSubmit = handleSubmit(({ id, title, slug, content }) =>
-    Update({ id, title, slug, content })
+  const onSubmit = handleSubmit(({ title, slug, content }) =>
+    toast.promise(Update({ title, slug, content }), {
+      loading: 'Updating...',
+      success: <b>Updated Successfully!</b>,
+      error: <b>Error while Updating</b>,
+    })
   )
 
-  const Update = async ({
-    id,
-    title,
-    slug,
-    content,
-  }: FormData): Promise<void> => {
-    try {
-      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts/update/${id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title, slug, content }),
-      })
-      reset()
-      toast('Successfully Updated')
-      router.push(`${process.env.NEXT_PUBLIC_APP_URL}/dashboard/posts`)
-    } catch (error) {
-      console.error(error)
-      toast('error')
-    }
+  const Update = async ({ title, slug, content }: FormData): Promise<void> => {
+    await fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts/update/${post.id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ title, slug, content }),
+    })
+    reset()
+    router.push(`${process.env.NEXT_PUBLIC_APP_URL}/dashboard/posts`)
   }
   return (
     <>
@@ -53,36 +51,50 @@ function CreatePost(post: Post) {
           <form onSubmit={onSubmit} className="flex space-y-4 flex-col">
             <div className="space-x-10 items-center flex">
               <label htmlFor="title">Title:</label>
-              <input
-                {...register('title', { required: true })}
-                id="title"
-                type="text"
-                defaultValue={post.title}
-                className="flex-1 px-1 py-1 outline-none border border-gray-600 rounded focus:ring-2 focus:border-0 focus:ring-blue-500"
+              <Controller
+                control={control}
+                render={({ field: { onChange, onBlur } }) => (
+                  <input
+                    id="title"
+                    type="text"
+                    onBlur={onBlur}
+                    defaultValue={post.title}
+                    onChange={onChange}
+                    className="flex-1 px-1 py-1 bg-transparent outline-none border border-gray-600 rounded focus:ring-2 focus:border-0 focus:ring-blue-500"
+                  />
+                )}
+                name="title"
               />
             </div>
             <div className="space-x-10 items-center flex">
               <label htmlFor="slug">Slug:</label>
-              <input
-                className="hidden"
-                defaultValue={post.id}
-                {...register('id', { required: true })}
-              />
-              <input
-                {...register('slug', { required: true })}
-                id="slug"
-                type="text"
-                defaultValue={post.slug}
-                className="flex-1 px-1 py-1 outline-none border border-gray-600 rounded focus:ring-2 focus:border-0 focus:ring-blue-500"
+              <Controller
+                control={control}
+                render={({ field: { onChange, onBlur } }) => (
+                  <input
+                    id="slug"
+                    type="text"
+                    onBlur={onBlur}
+                    defaultValue={post.slug}
+                    onChange={onChange}
+                    className="flex-1 px-1 py-1 bg-transparent outline-none border border-gray-600 rounded focus:ring-2 focus:border-0 focus:ring-blue-500"
+                  />
+                )}
+                name="slug"
               />
             </div>
             <div className="space-x-4 items-center flex">
               <label htmlFor="content">Content:</label>
-              <textarea
-                {...register('content', { required: true })}
-                id="content"
-                defaultValue={post.content}
-                className="flex-1 px-1 py-1 outline-none border border-gray-600 rounded focus:ring-2 focus:border-0 focus:ring-blue-500"
+              <Controller
+                control={control}
+                render={({ field: { onChange, onBlur } }) => (
+                  <SunEditor
+                    setContents={post.content}
+                    onBlur={onBlur}
+                    onChange={onChange}
+                  />
+                )}
+                name="content"
               />
             </div>
             <button
@@ -98,7 +110,7 @@ function CreatePost(post: Post) {
   )
 }
 
-export default CreatePost
+export default EditPost
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const post = await prisma.posts.findUnique({
