@@ -25,12 +25,12 @@ function Posts({ posts }: Posts) {
             <div
               onClick={() =>
                 router.push(
-                  '/dashboard/posts/[id]',
-                  `/dashboard/posts/${post.id}`
+                  '/dashboard/posts/[slug]',
+                  `/dashboard/posts/${post.slug}`
                 )
               }
               className="overflow-hidden flex flex-col space-y-2 p-5 border cursor-pointer border-slate-300 hover:border-slate-400 rounded-md"
-              key={post.id}
+              key={post.slug}
             >
               <h2 className="hover:underline">{post.title}</h2>
               <div className="post--content">{parse(post.content)}</div>

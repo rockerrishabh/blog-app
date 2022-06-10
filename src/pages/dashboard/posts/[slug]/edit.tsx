@@ -83,45 +83,48 @@ function EditPost(post: Post) {
               <Controller
                 control={control}
                 render={({ field: { onChange, onBlur } }) => (
-                  <Editor
-                    onBlur={onBlur}
-                    id="content"
-                    initialValue={post.content}
-                    init={{
-                      branding: false,
-                      a11y_advanced_options: true,
-                      plugins: [
-                        'print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons',
-                      ],
-                      menubar: true,
-                      toolbar_sticky: true,
-                      image_advtab: true,
-                      skin: 'snow',
-                      content_css: 'default',
-                      toolbar_mode: 'sliding',
-                      contextmenu: 'link image imagetools table',
-                      quickbars_selection_toolbar:
-                        'bold italic | quicklink h2 h3 blockquote quickimage quicktable',
-                      height: 400,
-                      icons: 'thin',
-                      image_caption: true,
-                      mobile: {
-                        plugins:
-                          'print preview powerpaste code casechange importcss tinydrive searchreplace autolink autosave save directionality advcode visualblocks visualchars fullscreen image link media mediaembed template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists checklist wordcount tinymcespellchecker a11ychecker textpattern noneditable help formatpainter pageembed charmap mentions quickbars linkchecker emoticons advtable',
-                      },
-                      menu: {
-                        tc: {
-                          title: 'Comments',
-                          items:
-                            'addcomment showcomments deleteallconversations',
+                  <div className="border p-2 border-gray-600 rounded">
+                    <Editor
+                      onBlur={onBlur}
+                      id="content"
+                      initialValue={post.content}
+                      init={{
+                        branding: false,
+                        a11y_advanced_options: true,
+                        plugins: [
+                          'print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons',
+                        ],
+                        menubar: true,
+                        toolbar_sticky: true,
+                        image_advtab: true,
+                        skin: 'snow',
+                        content_css: 'default',
+                        toolbar_mode: 'sliding',
+                        contextmenu: 'link image imagetools table',
+                        quickbars_selection_toolbar:
+                          'bold italic | quicklink h2 h3 blockquote quickimage quicktable',
+                        height: 400,
+                        width: 979,
+                        icons: 'thin',
+                        image_caption: true,
+                        mobile: {
+                          plugins:
+                            'print preview powerpaste code casechange importcss tinydrive searchreplace autolink autosave save directionality advcode visualblocks visualchars fullscreen image link media mediaembed template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists checklist wordcount tinymcespellchecker a11ychecker textpattern noneditable help formatpainter pageembed charmap mentions quickbars linkchecker emoticons advtable',
                         },
-                      },
-                      toolbar:
-                        'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist checklist | forecolor backcolor casechange permanentpen formatpainter removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media pageembed template link anchor codesample | a11ycheck ltr rtl | showcomments addcomment',
-                    }}
-                    apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY}
-                    onEditorChange={onChange}
-                  />
+                        menu: {
+                          tc: {
+                            title: 'Comments',
+                            items:
+                              'addcomment showcomments deleteallconversations',
+                          },
+                        },
+                        toolbar:
+                          'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist checklist | forecolor backcolor casechange permanentpen formatpainter removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media pageembed template link anchor codesample | a11ycheck ltr rtl | showcomments addcomment',
+                      }}
+                      apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY}
+                      onEditorChange={onChange}
+                    />
+                  </div>
                 )}
                 name="content"
               />
@@ -144,7 +147,7 @@ export default EditPost
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const post = await prisma.posts.findUnique({
     where: {
-      id: String(ctx.params?.id),
+      slug: String(ctx.params?.slug),
     },
     include: {
       author: {

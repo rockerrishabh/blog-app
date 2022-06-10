@@ -13,14 +13,14 @@ function Post(post: Post) {
     await fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts/publish/${id}`, {
       method: 'PUT',
     })
-    await router.push(`/dashboard/posts/${id}`)
+    await router.push(`/dashboard/posts/${post.slug}`)
   }
 
   const unPublishPost = async (id: string): Promise<void> => {
     await fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts/unpublish/${id}`, {
       method: 'PUT',
     })
-    await router.push(`/dashboard/posts/${id}`)
+    await router.push(`/dashboard/posts/${post.slug}`)
   }
 
   const deletePost = async (id: string): Promise<void> => {
@@ -40,7 +40,7 @@ function Post(post: Post) {
         <div className="text-white space-x-4 mt-2">
           <button
             onClick={() => {
-              router.push(`/dashboard/posts/${post.id}/edit`)
+              router.push(`/dashboard/posts/${post.slug}/edit`)
             }}
             className="py-2 px-6 bg-orange-400 hover:opacity-80 rounded-md"
           >
@@ -93,7 +93,7 @@ export default Post
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const post = await prisma.posts.findUnique({
     where: {
-      id: String(context.params?.id),
+      slug: String(context.params?.slug),
     },
     include: {
       author: {
