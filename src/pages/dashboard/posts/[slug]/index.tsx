@@ -34,8 +34,10 @@ function Post(post: Post) {
   return (
     <div className="col-span-7 p-5">
       <div className="flex flex-col">
-        <h1>{post.title}</h1>
-        <p>{post.content}</p>
+        <div className="flex flex-col space-y-3">
+          <h2>{post.title}</h2>
+          <p>{post.content}</p>
+        </div>
         <div className="text-white space-x-4 mt-2">
           <button
             onClick={() => {

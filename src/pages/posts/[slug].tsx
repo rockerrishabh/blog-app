@@ -18,9 +18,10 @@ function Post(post: Props) {
 
   return (
     <div className="col-span-7 p-5">
-      <h2>{post.title}</h2>
-
-      <div>{post.content}</div>
+      <div className="flex flex-col space-y-3">
+        <h2>{post.title}</h2>
+        <p className="excerpt">{post.content}</p>
+      </div>
     </div>
   )
 }

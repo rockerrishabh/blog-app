@@ -13,12 +13,12 @@ const Home: NextPage<Posts> = ({ posts }) => {
         <div>Posts</div>
         {posts.map((post) => (
           <div
-          className={'overflow-hidden'}
+            className="overflow-hidden flex flex-col space-y-3 border rounded-md p-5"
             onClick={() => router.push('/posts/[slug]', `/posts/${post.slug}`)}
             key={post.slug}
           >
-            <div className="cursor-pointer hover:underline">{post.title}</div>
-            <p>{post.content}</p>
+            <h2 className="cursor-pointer hover:underline">{post.title}</h2>
+            <p className="post--content">{post.content}</p>
           </div>
         ))}
       </div>

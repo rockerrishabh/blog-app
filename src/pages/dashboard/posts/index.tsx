@@ -6,8 +6,6 @@ import { PlusIcon } from '@heroicons/react/solid'
 import Link from 'next/link'
 import { Posts } from '../../../../typings'
 
-
-
 function Posts({ posts }: Posts) {
   const { data: session } = useSession()
   const router = useRouter()
@@ -30,11 +28,11 @@ function Posts({ posts }: Posts) {
                   `/dashboard/posts/${post.slug}`
                 )
               }
-              className="overflow-hidden p-5 border cursor-pointer border-slate-300 hover:border-slate-400 rounded-md"
+              className="overflow-hidden flex flex-col space-y-3 p-5 border cursor-pointer border-slate-300 hover:border-slate-400 rounded-md"
               key={post.id}
             >
-              <h1 className="hover:underline">{post.title}</h1>
-              <p className="excerpt">{post.content}</p>
+              <h2 className="hover:underline">{post.title}</h2>
+              <p className="post--content">{post.content}</p>
             </div>
           ))}
         </div>
