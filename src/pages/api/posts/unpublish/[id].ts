@@ -9,7 +9,7 @@ export default async function handle(
   if (req.method === 'PUT') {
     const posts = await prisma.posts.update({
       where: { id: String(postId) },
-      data: { published: true },
+      data: { published: false },
     })
     res.json(posts)
   } else {

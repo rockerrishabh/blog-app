@@ -118,7 +118,6 @@ function CreatePost() {
                         // ['save', 'template'],
                         // '/', Line break
                       ], // Or Array of button list, eg. [['font', 'align'], ['image']]
-                      defaultTag: 'div',
                       minHeight: '300px',
                     }}
                   />

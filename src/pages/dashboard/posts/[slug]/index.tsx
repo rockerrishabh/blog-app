@@ -19,6 +19,13 @@ function Post(post: Post) {
     await router.push('/dashboard/posts')
   }
 
+  async function unPublishPost(id: string): Promise<void> {
+    await fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts/unpublish/${id}`, {
+      method: 'PUT',
+    })
+    await router.push('/dashboard/posts')
+  }
+
   async function deletePost(id: string): Promise<void> {
     await fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts/${id}`, {
       method: 'DELETE',
@@ -45,6 +52,18 @@ function Post(post: Post) {
           <button
             onClick={() => {
               toast.promise(publishPost(post.id), {
+                loading: 'Un-Publishing...',
+                success: <b>Un Published Successfully!</b>,
+                error: <b>Error while Un-Publishing</b>,
+              })
+            }}
+            className="py-2 text-white px-4 bg-stone-600 hover:opacity-80 rounded-md"
+          >
+            Un Publish
+          </button>
+          <button
+            onClick={() => {
+              toast.promise(unPublishPost(post.id), {
                 loading: 'Publishing...',
                 success: <b>Published Successfully!</b>,
                 error: <b>Error while Publishing</b>,
