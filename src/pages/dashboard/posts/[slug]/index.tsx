@@ -31,7 +31,7 @@ function Post(post: Post) {
       <div className="flex flex-col">
         <div className="flex flex-col space-y-2">
           <h2>{post.title}</h2>
-          <p>{parse(post.content)}</p>
+          <div>{parse(post.content)}</div>
         </div>
         <div className="text-white space-x-4 mt-2">
           <button

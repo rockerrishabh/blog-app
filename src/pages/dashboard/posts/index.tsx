@@ -33,7 +33,7 @@ function Posts({ posts }: Posts) {
               key={post.id}
             >
               <h2 className="hover:underline">{post.title}</h2>
-              <p className="post--content">{parse(post.content)}</p>
+              <div className="post--content">{parse(post.content)}</div>
             </div>
           ))}
         </div>

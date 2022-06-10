@@ -19,7 +19,7 @@ const Home: NextPage<Posts> = ({ posts }) => {
             key={post.slug}
           >
             <h2 className="cursor-pointer hover:underline">{post.title}</h2>
-            <p className="post--content">{parse(post.content)}</p>
+            <div className="post--content">{parse(post.content)}</div>
           </div>
         ))}
       </div>

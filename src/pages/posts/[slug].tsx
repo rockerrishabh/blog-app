@@ -21,7 +21,7 @@ function Post(post: Props) {
     <div className="col-span-7 p-5">
       <div className="flex flex-col space-y-2">
         <h2>{post.title}</h2>
-        <p className="excerpt">{parse(post.content)}</p>
+        <div className="excerpt">{parse(post.content)}</div>
       </div>
     </div>
   )
